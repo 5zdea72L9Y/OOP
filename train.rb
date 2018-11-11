@@ -1,18 +1,18 @@
-class Train 
+class Train
   attr_reader :speed
   attr_reader :type
   attr_reader :wagons
   attr_reader :number
   attr_reader :route
   def initialize(number, type, wagons)
-    if %w(passager freght).include?(type)
+    if %w[passager freght].include?(type)
       @number = number.to_i
       @type = type
       @wagons = wagons.to_i
       @speed = 0
       @route = nil
       @current_station = 0
-    else 
+    else
       puts 'Неправильно указан тип поезда'
     end
   end
@@ -30,23 +30,14 @@ class Train
   end
 
   def add_wagon
-    if @speed.zero?
-      @wagons += 1
-    else
-      puts 'Сбавьте скорость до 0'
-    end
+    return puts 'Сбавьте скорость до 0' unless @speed.zero?
+    @wagons += 1
   end
 
   def delete_wagon
-    if @speed.zero?
-      if @wagons - 1 > 0
-        @wagons -= 1
-      else 
-        puts 'Кол-во вагонов не может быть отрицательным'
-      end
-    else
-      puts 'Сбавьте скорость до 0'
-    end
+    return puts 'Сбавьте скорость до 0' unless @speed.zero?
+    return puts 'Кол-во вагонов не может быть отрицательным' if @wagons < 1 
+    @wagons -= 1
   end
 
   def add_route(route)
@@ -59,31 +50,19 @@ class Train
   end
 
   def move_straight
-    if next_station
-      if !@speed.zero?
-        current_station.delete_train(self)
-        @current_station += 1
-        current_station.accept_train(self)
-      else 
-        puts 'Скорость равна 0'
-      end
-    else
-      puts 'Станций больше нет'
-    end
+    return puts 'Станций больше нет' unless next_station
+    return puts 'Скорость равна 0' if @speed.zero?
+    current_station.delete_train(self)
+    @current_station += 1
+    current_station.accept_train(self)
   end
 
-  def move_back 
-    if prev_station
-      if !@speed.zero?
-        current_station.delete_train(self)
-        @current_station -= 1
-        current_station.accept_train(self)
-      else 
-        puts 'Скорость равна 0'
-      end
-    else 
-      puts 'Станций больше нет'
-    end
+  def move_back
+    return puts 'Станций больше нет' unless prev_station
+    return puts 'Скорость равна 0' if @speed.zero?
+    current_station.delete_train(self)
+    @current_station -= 1
+    current_station.accept_train(self)
   end
 
   def current_station
@@ -101,5 +80,4 @@ class Train
   def stop
     @speed = 0
   end
-
 end

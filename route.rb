@@ -1,4 +1,4 @@
-class Route 
+class Route
   attr_reader :stations
   def initialize(first_station, last_station)
     @stations = [first_station, last_station]
@@ -16,14 +16,13 @@ class Route
     @stations.last
   end
 
-  def delete_secondary_station(station) 
+  def delete_secondary_station(station)
     @stations.delete(station)
   end
 
   def show_stations
-    puts 'stations: ' 
+    puts 'stations: '
     @stations.each do |station|
-      
       puts station.name
     end
   end

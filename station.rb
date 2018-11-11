@@ -10,7 +10,7 @@ class Station
   end
 
   def get_trains_by_type(type)
-    sort_trains = @trains.select{ |train| train.type == type } 
+    sort_trains = @trains.select { |train| train.type == type }
     sort_trains.each do |train|
       puts "#{type} trains: "
       puts train.number
@@ -21,10 +21,9 @@ class Station
     @trains.delete(train)
   end
 
-  def show_trains 
+  def show_trains
     @trains.each do |train|
       puts "Train number: #{train.number}, train type: #{train.type}, train wagons: #{train.wagons}"
     end
   end
-
 end

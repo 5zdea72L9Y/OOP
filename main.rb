@@ -1,12 +1,12 @@
-require "./station.rb"
-require "./route.rb"
-require "./train.rb"
+require './station.rb'
+require './route.rb'
+require './train.rb'
 
 station_first = Station.new('ggg')
 station_last = Station.new('fff')
 station_test = Station.new('test')
 route = Route.new(station_first, station_last)
-train = Train.new(1, "passager", 16)
+train = Train.new(1, 'passager', 16)
 
 train.add_route(route)
 
