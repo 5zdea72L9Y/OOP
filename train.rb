@@ -31,12 +31,14 @@ class Train
 
   def add_wagon
     return puts 'Сбавьте скорость до 0' unless @speed.zero?
+
     @wagons += 1
   end
 
   def delete_wagon
     return puts 'Сбавьте скорость до 0' unless @speed.zero?
-    return puts 'Кол-во вагонов не может быть отрицательным' if @wagons < 1 
+    return puts 'Кол-во вагонов не может быть отрицательным' if @wagons < 1
+
     @wagons -= 1
   end
 
@@ -52,6 +54,7 @@ class Train
   def move_straight
     return puts 'Станций больше нет' unless next_station
     return puts 'Скорость равна 0' if @speed.zero?
+
     current_station.delete_train(self)
     @current_station += 1
     current_station.accept_train(self)
@@ -60,6 +63,7 @@ class Train
   def move_back
     return puts 'Станций больше нет' unless prev_station
     return puts 'Скорость равна 0' if @speed.zero?
+
     current_station.delete_train(self)
     @current_station -= 1
     current_station.accept_train(self)
