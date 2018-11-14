@@ -24,6 +24,7 @@ class Train
 
   def add_wagon(wagon)
     return puts 'Сбавьте скорость до 0' unless @speed.zero?
+
     @wagons << wagon
     puts 'Вагон успешно добавлен'
   end
@@ -45,7 +46,7 @@ class Train
     puts @route.show_stations
   end
 
-  def show_wagons 
+  def show_wagons
     @wagons.each_with_index do |wagon, i|
       puts "#{i} - #{wagon.number}, #{wagon.type}"
     end

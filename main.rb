@@ -85,7 +85,7 @@ def delete_wagon_from_train
   train_number = gets.chomp.to_i
   puts 'Введите номер вагона: '
   find_train = $custom_trains[train_number]
-  find_train.show_wagons 
+  find_train.show_wagons
   wagon_number = gets.chomp.to_i
   find_wagon = $custom_wagons[wagon_number]
   find_train.delete_wagon(find_wagon)
@@ -151,7 +151,7 @@ def add_or_remove_speed
   puts "текущая скорость: #{find_train.speed}"
 end
 
-def create_wagon 
+def create_wagon
   puts 'Введите номер вагона: '
   wagon_number = gets.chomp.to_i
   puts "Введите тип вагона:
@@ -227,7 +227,7 @@ loop do
   when 1
     create_station
   when 2
-    create_wagon 
+    create_wagon
   when 3
     create_train
   when 4
@@ -250,4 +250,3 @@ loop do
     show_train_wagons
   end
 end
-
