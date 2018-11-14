@@ -1,11 +1,11 @@
 class Train
   attr_reader :speed, :type, :wagons, :number, :route
 
-  def initialize(number, type, wagons)
+  def initialize(number, type)
     @number = number
-    @wagons = (1..wagons).to_a
     @type = type
     @speed = 0
+    @wagons = []
     @route = nil
     @current_station = 0
   end
@@ -22,17 +22,18 @@ class Train
     end
   end
 
-  def add_wagon # если поезд пассажирский то вагоны все будут пассажирские. Знаю что очевидно, но это для понимания моей реализации
+  def add_wagon(wagon)
     return puts 'Сбавьте скорость до 0' unless @speed.zero?
-
-    @wagons << @wagons.count + 1
+    @wagons << wagon
+    puts 'Вагон успешно добавлен'
   end
 
-  def delete_wagon
+  def delete_wagon(wagon)
     return puts 'Сбавьте скорость до 0' unless @speed.zero?
     return puts 'Кол-во вагонов не может быть отрицательным' if @wagons.empty?
 
-    @wagons.delete(@wagons.count)
+    @wagons.delete(wagon)
+    puts 'Вагон успешно удален'
   end
 
   def add_route(route)
@@ -42,6 +43,12 @@ class Train
 
   def show_route
     puts @route.show_stations
+  end
+
+  def show_wagons 
+    @wagons.each_with_index do |wagon, i|
+      puts "#{i} - #{wagon.number}, #{wagon.type}"
+    end
   end
 
   def move_straight
