@@ -1,4 +1,6 @@
 class TrainFreght < Train
+  require './instance_counter'
+  include InstanceCounter
   def initialize(number)
     type = 'Freght'
     super(number, type)

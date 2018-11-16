@@ -1,6 +1,10 @@
 class Train
+  require './company'
+  require './instance_counter'
+  include Company
+  include InstanceCounter
   attr_reader :speed, :type, :wagons, :number, :route
-
+  @@all_trains = []
   def initialize(number, type)
     @number = number
     @type = type
@@ -8,6 +12,14 @@ class Train
     @wagons = []
     @route = nil
     @current_station = 0
+    @@all_trains << self
+    register_instance
+  end
+
+  def self.find(number)
+    train_number = number.to_i
+    find_train = @@all_trains.select { |train| train_number == train.number }
+    puts find_train
   end
 
   def add_speed(speed)

@@ -29,6 +29,10 @@ class Main
       10 - Посмотреть маршрут поезда \n
       11 - Убавить или добавить скорость \n
       12 - Показать вагоны поезда \n
+      13 - Показать производителя поездов и вагонов \n
+      14 - Показать все станции \n
+      15 - Найти поезд по номеру \n
+      16 - Показать количество экземпляров класса \n
       0 - exit
       "
       action = gets.chomp.to_i
@@ -60,8 +64,40 @@ class Main
         add_or_remove_speed
       when 12
         show_train_wagons
+      when 13
+        show_company
+      when 14
+        show_all_stations
+      when 15
+        show_train_by_number
+      when 16
+        show_intialize_count
       end
     end
+  end
+
+  private
+
+  def show_intialize_count
+    puts "Роуты: #{Route.instances}, поезда: #{TrainPassenger.instances + TrainFreght.instances}, станции: #{Station.instances}"
+  end
+
+  def show_company
+    puts "Производитель пассажирских поездов #{Train.show_trains_passenger_company},
+    производитель грузовых вагонов #{Train.show_trains_freght_company},
+    производитель пассажирских вагонов #{WagonPassenger.show_wagons_freght_company},
+    производитель грузовых вагонов #{WagonFreght.show_wagons_passenger_company}
+    "
+  end
+
+  def show_all_stations
+    Station.all_stations
+  end
+
+  def show_train_by_number
+    puts 'Введите номер поезда: '
+    train_number = gets.chomp.to_i
+    Train.find(train_number)
   end
 
   def create_station
@@ -74,7 +110,7 @@ class Main
 
   def create_train
     puts "Введите тип поезда: \n
-      1 - Passenger \n
+    1 - Passenger \n
       2 - Freght
     "
     type = gets.chomp.to_i
@@ -223,8 +259,6 @@ class Main
       puts 'Вагон успешно добавлен'
     end
   end
-
-  private
 
   def show_trains
     @custom_trains.each_with_index do |train, i|

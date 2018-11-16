@@ -1,8 +1,19 @@
 class Station
+  require './instance_counter'
+  include InstanceCounter
   attr_reader :name
+  @@all_stations = []
   def initialize(name)
     @name = name
     @trains = []
+    @@all_stations << self
+    register_instance
+  end
+
+  def self.all_stations
+    @@all_stations.each_with_index do |station, i|
+      puts "#{i} - #{station}"
+    end
   end
 
   def accept_train(train)
@@ -23,7 +34,7 @@ class Station
 
   def show_trains
     @trains.each do |train|
-      puts "Train number: #{train.number}, train type: #{train.type}, train wagons: #{train.wagons}"
+      puts "Номер поезда: #{train.number}, тип поезда: #{train.type}, вагоны поезда: #{train.wagons}"
     end
   end
 end

@@ -1,4 +1,7 @@
+require './company'
+
 class WagonFreght
+  include Company
   attr_reader :number, :type, :train
   def initialize(number, train = nil)
     @number = number
