@@ -19,7 +19,7 @@ class Train
   def self.find(number)
     train_number = number.to_i
     find_train = @@all_trains.select { |train| train_number == train.number }
-    puts find_train
+    find_train
   end
 
   def add_speed(speed)

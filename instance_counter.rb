@@ -22,6 +22,7 @@ module InstanceCounter
     private
 
     def register_instance
+      self.class.instances
       self.class.send :add_instance
     end
   end

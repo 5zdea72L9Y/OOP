@@ -11,9 +11,7 @@ class Station
   end
 
   def self.all_stations
-    @@all_stations.each_with_index do |station, i|
-      puts "#{i} - #{station}"
-    end
+    puts @@all_stations
   end
 
   def accept_train(train)

@@ -29,7 +29,7 @@ class Main
       10 - Посмотреть маршрут поезда \n
       11 - Убавить или добавить скорость \n
       12 - Показать вагоны поезда \n
-      13 - Показать производителя поездов и вагонов \n
+      13 - Показать или указать производителя поездов и вагонов \n
       14 - Показать все станции \n
       15 - Найти поезд по номеру \n
       16 - Показать количество экземпляров класса \n
@@ -65,7 +65,7 @@ class Main
       when 12
         show_train_wagons
       when 13
-        show_company
+        show_or_set_company
       when 14
         show_all_stations
       when 15
@@ -82,12 +82,30 @@ class Main
     puts "Роуты: #{Route.instances}, поезда: #{TrainPassenger.instances + TrainFreght.instances}, станции: #{Station.instances}"
   end
 
-  def show_company
-    puts "Производитель пассажирских поездов #{Train.show_trains_passenger_company},
-    производитель грузовых вагонов #{Train.show_trains_freght_company},
-    производитель пассажирских вагонов #{WagonPassenger.show_wagons_freght_company},
-    производитель грузовых вагонов #{WagonFreght.show_wagons_passenger_company}
+  def show_or_set_company
+    puts "Выберите действие:
+      1 - указать производителя вагонов
+      2 - указать производителя поездов
+      3 - показать производителя вагонов
+      4 - показать производителя поездов
     "
+    action = gets.chomp.to_i
+
+    case action
+    when 1
+      puts 'Введите производителя: '
+      company_name = gets.chomp
+      WagonFreght.company = company_name
+      WagonPassenger.company = company_name
+    when 2
+      puts 'Введите производителя: '
+      company_name = gets.chomp
+      Train.company = company_name
+    when 3
+      puts WagonFreght.company # или WagonPassenger.company
+    when 4
+      puts Train.company
+    end
   end
 
   def show_all_stations
@@ -97,7 +115,7 @@ class Main
   def show_train_by_number
     puts 'Введите номер поезда: '
     train_number = gets.chomp.to_i
-    Train.find(train_number)
+    puts Train.find(train_number)
   end
 
   def create_station
