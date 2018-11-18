@@ -4,7 +4,8 @@ class Station
   attr_reader :name
   @@all_stations = []
   def initialize(name)
-    @name = name
+    @name = name.to_s
+    valid?
     @trains = []
     @@all_stations << self
     register_instance
@@ -34,5 +35,13 @@ class Station
     @trains.each do |train|
       puts "Номер поезда: #{train.number}, тип поезда: #{train.type}, вагоны поезда: #{train.wagons}"
     end
+  end
+
+  private 
+
+  def valid?
+    regexp = /^[a-z]{3,50}$/i
+    raise 'Имя не может быть меньше 3 или юольше 50 символов' if @name !~ regexp
+    true
   end
 end

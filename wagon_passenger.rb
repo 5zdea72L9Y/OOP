@@ -7,6 +7,7 @@ class WagonPassenger
     @number = number
     @type = 'Passenger'
     @train = train
+    valid?
   end
 
   def show_wagon_type
@@ -16,5 +17,13 @@ class WagonPassenger
   def show_train_wagon
     puts "Вагон #{@number} принадлежит поезду #{@train.number}" if @train
     puts "Вагон #{@number} не принадлежит поезду" unless @train
+  end
+
+  private 
+
+  def valid?
+    raise 'Введен невалидный номер вагон' if @number <= 0
+    raise 'Номер вагона не может быть больше 1000' if @number > 100000
+    true
   end
 end

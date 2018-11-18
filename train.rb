@@ -8,6 +8,7 @@ class Train
   def initialize(number, type)
     @number = number
     @type = type
+    valid?
     @speed = 0
     @wagons = []
     @route = nil
@@ -17,7 +18,7 @@ class Train
   end
 
   def self.find(number)
-    train_number = number.to_i
+    train_number = number
     find_train = @@all_trains.select { |train| train_number == train.number }
     find_train
   end
@@ -97,4 +98,15 @@ class Train
   def current_station
     @route.stations[@current_station]
   end
+
+  private 
+
+  def valid?
+    regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
+    puts @number
+    raise 'Введен невалидный номер поезда' unless @number =~ regexp
+    true
+  end
 end
+
+

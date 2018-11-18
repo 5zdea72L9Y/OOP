@@ -114,7 +114,7 @@ class Main
 
   def show_train_by_number
     puts 'Введите номер поезда: '
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp
     puts Train.find(train_number)
   end
 
@@ -122,7 +122,7 @@ class Main
     puts 'Введите имя станции: '
     custom_station_name = gets.chomp
     custom_station = Station.new(custom_station_name)
-    puts 'Станция создана'
+    puts "Станция создана: #{custom_station.name}"
     @custom_stations << custom_station
   end
 
@@ -133,16 +133,16 @@ class Main
     "
     type = gets.chomp.to_i
     puts 'Введите номер поезда: '
-    number = gets.chomp.to_i
+    number = gets.chomp
     case type
     when 1
       custom_train = TrainPassenger.new(number)
       @custom_trains << custom_train
-      puts 'Поезд успешно создан'
+      puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     when 2
       custom_train = TrainFreght.new(number)
       @custom_trains << custom_train
-      puts 'Поезд успешно создан'
+      puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     else
       puts 'Неправильный тип поезда'
     end
@@ -152,13 +152,13 @@ class Main
     puts 'Введите начальную станцию: '
     show_stations
     custom_route_first = gets.chomp.to_i
-    puts 'Введите последнюю станцию: '
+    puts 'Введите конечную станцию: '
     custom_route_last = gets.chomp.to_i
     custom_station1 = @custom_stations[custom_route_first]
     custom_station2 = @custom_stations[custom_route_last]
     create_route = Route.new(custom_station1, custom_station2)
     @custom_routes << create_route
-    puts 'Маршрут успешно создан'
+    puts "Маршрут успешно создан: начальная станция #{custom_station1.name}, конечная станция #{custom_station2.name}"
   end
 
   def add_route_to_train
@@ -270,11 +270,11 @@ class Main
     when 1
       passenger_wagon = WagonPassenger.new(wagon_number)
       @custom_wagons << passenger_wagon
-      puts 'Вагон успешно добавлен'
+      puts "Созданный вагон: #{passenger_wagon.number}, #{passenger_wagon.type}"
     when 2
       freght_wagon = WagonFreght.new(wagon_number)
       @custom_wagons << freght_wagon
-      puts 'Вагон успешно добавлен'
+      puts "Созданный вагон: #{freght_wagon.number}, #{freght_wagon.type}"
     end
   end
 
