@@ -109,7 +109,7 @@ class Main
   end
 
   def show_all_stations
-    Station.all_stations
+    puts Station.all_stations
   end
 
   def show_train_by_number

@@ -11,7 +11,7 @@ class Station
   end
 
   def self.all_stations
-    puts @@all_stations
+    @@all_stations
   end
 
   def accept_train(train)
