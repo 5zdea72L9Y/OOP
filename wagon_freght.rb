@@ -22,13 +22,13 @@ class WagonFreght
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
   private
 
   def validate!
-    false if @number <= 0 || @number > 100000
+    false if @number <= 0 || @number > 100_000
   end
 end

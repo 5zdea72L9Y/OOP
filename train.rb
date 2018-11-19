@@ -102,15 +102,14 @@ class Train
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
   protected
 
   def validate!
-  regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
-  raise 'Невалидный номер поезда!' unless @number =~ regexp
+    regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
+    raise 'Невалидный номер поезда!' unless @number =~ regexp
   end
 end
-

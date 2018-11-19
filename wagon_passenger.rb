@@ -22,13 +22,13 @@ class WagonPassenger
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
   private
 
   def validate!
-    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100000
+    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100_000
   end
 end
