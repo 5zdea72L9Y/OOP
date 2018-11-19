@@ -5,7 +5,7 @@ require './train_passenger'
 require './train_freght'
 require './wagon_freght'
 require './wagon_passenger'
-
+# test
 class Main
   def initialize
     @custom_stations = []
