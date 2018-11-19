@@ -19,11 +19,16 @@ class WagonFreght
     puts "Вагон #{@number} не принадлежит поезду" unless @train
   end
 
-  private 
-
   def valid?
-    raise 'Введен невалидный номер вагона' if @number <= 0
-    raise 'Номер вагона не может быть больше 1000' if @number > 100000
+    validate!
     true
+  rescue
+    false
+  end
+
+  private
+
+  def validate!
+    false if @number <= 0 || @number > 100000
   end
 end

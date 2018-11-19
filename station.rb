@@ -37,11 +37,17 @@ class Station
     end
   end
 
-  private 
-
   def valid?
-    regexp = /^[a-z]{3,50}$/i
-    raise 'Имя не может быть меньше 3 или юольше 50 символов' if @name !~ regexp
+    validate!
     true
+  rescue
+    false
+  end
+
+  private
+
+  def validate!
+    regexp = /^[a-z]{3,50}$/i
+    raise 'Имя не может быть меньше 3 или больше 50 символов' unless @name =~ regexp
   end
 end

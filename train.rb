@@ -99,14 +99,18 @@ class Train
     @route.stations[@current_station]
   end
 
-  private 
-
   def valid?
-    regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
-    puts @number
-    raise 'Введен невалидный номер поезда' unless @number =~ regexp
+    validate!
     true
+  rescue
+    false
+  end
+
+  protected
+
+  def validate!
+  regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
+  raise 'Невалидный номер поезда!' unless @number =~ regexp
   end
 end
-
 

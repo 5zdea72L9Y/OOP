@@ -5,7 +5,7 @@ require './train_passenger'
 require './train_freght'
 require './wagon_freght'
 require './wagon_passenger'
-# test
+
 class Main
   def initialize
     @custom_stations = []
@@ -36,7 +36,7 @@ class Main
       0 - exit
       "
       action = gets.chomp.to_i
-      main = Main.new
+
       case action
       when 0
         break
@@ -122,6 +122,7 @@ class Main
     puts 'Введите имя станции: '
     custom_station_name = gets.chomp
     custom_station = Station.new(custom_station_name)
+    return create_station unless custom_station.valid?
     puts "Станция создана: #{custom_station.name}"
     @custom_stations << custom_station
   end
@@ -129,7 +130,7 @@ class Main
   def create_train
     puts "Введите тип поезда: \n
     1 - Passenger \n
-      2 - Freght
+    2 - Freght
     "
     type = gets.chomp.to_i
     puts 'Введите номер поезда: '
@@ -137,10 +138,12 @@ class Main
     case type
     when 1
       custom_train = TrainPassenger.new(number)
+      return create_train unless custom_train.valid?
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     when 2
       custom_train = TrainFreght.new(number)
+      return create_train unless custom_train.valid?
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     else
@@ -269,10 +272,12 @@ class Main
     case wagon_type
     when 1
       passenger_wagon = WagonPassenger.new(wagon_number)
+      return create_wagon unless passenger_wagon.valid?
       @custom_wagons << passenger_wagon
       puts "Созданный вагон: #{passenger_wagon.number}, #{passenger_wagon.type}"
     when 2
       freght_wagon = WagonFreght.new(wagon_number)
+      return create_wagon unless freght_wagon.valid?
       @custom_wagons << freght_wagon
       puts "Созданный вагон: #{freght_wagon.number}, #{freght_wagon.type}"
     end

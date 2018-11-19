@@ -19,11 +19,16 @@ class WagonPassenger
     puts "Вагон #{@number} не принадлежит поезду" unless @train
   end
 
-  private 
-
   def valid?
-    raise 'Введен невалидный номер вагон' if @number <= 0
-    raise 'Номер вагона не может быть больше 1000' if @number > 100000
+    validate!
     true
+  rescue
+    false
+  end
+
+  private
+
+  def validate!
+    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100000
   end
 end
