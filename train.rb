@@ -8,7 +8,6 @@ class Train
   def initialize(number, type)
     @number = number
     @type = type
-    valid?
     @speed = 0
     @wagons = []
     @route = nil

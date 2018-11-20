@@ -11,7 +11,7 @@ class WagonFreght
   end
 
   def show_wagon_type
-    puts @type
+    @type
   end
 
   def show_train_wagon
