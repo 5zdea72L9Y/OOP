@@ -7,6 +7,7 @@ class Train
   @@all_trains = []
   def initialize(number, type)
     raise 'create error' unless valid?
+
     @number = number
     @type = type
     @speed = 0
@@ -23,15 +24,15 @@ class Train
     find_train
   end
 
-  def self.validate!(number, type)
+  def self.validate!(number, _type)
     regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
     raise 'Невалидный номер поезда!' unless number =~ regexp
   end
 
   def self.valid?(number, type)
-    self.validate!(number, type)
+    validate!(number, type)
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -114,7 +115,7 @@ class Train
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
@@ -129,9 +130,9 @@ class Train
 
   def speed_valid?
     raise unless @speed.zero?
+
     true
-  rescue
+  rescue StandardError
     false
   end
-
 end

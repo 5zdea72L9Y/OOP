@@ -146,11 +146,13 @@ class Main
     case type_answer
     when 1
       return unless validate_train!(number, type)
+
       custom_train = TrainPassenger.new(number)
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     when 2
       return unless validate_train!(number, type)
+
       custom_train = TrainFreght.new(number)
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
@@ -224,10 +226,12 @@ class Main
     case direction
     when 1
       return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_straight
+
       find_train.current_station
       Станций больше нет
     when 2
       return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_back
+
       find_train.current_station
     end
   end
@@ -335,8 +339,9 @@ class Main
 
   def validate_train!(number, type)
     raise unless Train.valid?(number, type)
+
     true
-  rescue
+  rescue StandardError
     puts 'Неверный номер или тип поезда!'
     false
   end

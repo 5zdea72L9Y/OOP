@@ -17,7 +17,7 @@ class WagonFreght
   def valid?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 
