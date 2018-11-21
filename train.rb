@@ -6,6 +6,7 @@ class Train
   attr_reader :speed, :type, :wagons, :number, :route
   @@all_trains = []
   def initialize(number, type)
+    raise 'create error' unless valid?
     @number = number
     @type = type
     @speed = 0
@@ -22,6 +23,18 @@ class Train
     find_train
   end
 
+  def self.validate!(number, type)
+    regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
+    raise 'Невалидный номер поезда!' unless number =~ regexp
+  end
+
+  def self.valid?(number, type)
+    self.validate!(number, type)
+    true
+  rescue
+    false
+  end
+
   def add_speed(speed)
     @speed += speed
   end
@@ -35,15 +48,15 @@ class Train
   end
 
   def add_wagon(wagon)
-    return puts 'Сбавьте скорость до 0' unless @speed.zero?
+    return false unless speed_valid?
 
     @wagons << wagon
     puts 'Вагон успешно добавлен'
   end
 
   def delete_wagon(wagon)
-    return puts 'Сбавьте скорость до 0' unless @speed.zero?
-    return puts 'Кол-во вагонов не может быть отрицательным' if @wagons.empty?
+    return false unless speed_valid?
+    return false if @wagons.empty?
 
     @wagons.delete(wagon)
     puts 'Вагон успешно удален'
@@ -65,8 +78,8 @@ class Train
   end
 
   def move_straight
-    return puts 'Станций больше нет' unless next_station
-    return puts 'Скорость равна 0' if @speed.zero?
+    return false unless next_station
+    return false if @speed.zero?
 
     current_station.delete_train(self)
     @current_station += 1
@@ -74,8 +87,8 @@ class Train
   end
 
   def move_back
-    return puts 'Станций больше нет' unless prev_station
-    return puts 'Скорость равна 0' if @speed.zero?
+    return false unless prev_station
+    return false if @speed.zero?
 
     current_station.delete_train(self)
     @current_station -= 1
@@ -101,7 +114,7 @@ class Train
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue
     false
   end
 
@@ -111,4 +124,14 @@ class Train
     regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
     raise 'Невалидный номер поезда!' unless @number =~ regexp
   end
+
+  protected
+
+  def speed_valid?
+    raise unless @speed.zero?
+    true
+  rescue
+    false
+  end
+
 end

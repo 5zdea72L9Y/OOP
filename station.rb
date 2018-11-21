@@ -21,8 +21,8 @@ class Station
 
   def get_trains_by_type(type)
     sort_trains = @trains.select { |train| train.type == type }
+    puts "#{type} trains: "
     sort_trains.each do |train|
-      puts "#{type} trains: "
       puts train.number
     end
   end
@@ -40,7 +40,7 @@ class Station
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue
     false
   end
 

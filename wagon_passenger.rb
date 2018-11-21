@@ -14,15 +14,10 @@ class WagonPassenger
     @type
   end
 
-  def show_train_wagon
-    puts "Вагон #{@number} принадлежит поезду #{@train.number}" if @train
-    puts "Вагон #{@number} не принадлежит поезду" unless @train
-  end
-
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue
     false
   end
 

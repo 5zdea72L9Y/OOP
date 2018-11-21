@@ -133,20 +133,25 @@ class Main
     1 - Passenger \n
     2 - Freght
     "
-    type = gets.chomp.to_i
+    type_answer = gets.chomp.to_i
+    type = ''
+    case type_answer
+    when 1
+      type = 'Passenger'
+    when 2
+      type = 'Freght'
+    end
     puts 'Введите номер поезда: '
     number = gets.chomp
-    case type
+    case type_answer
     when 1
+      return unless validate_train!(number, type)
       custom_train = TrainPassenger.new(number)
-      return create_train unless custom_train.valid?
-
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     when 2
+      return unless validate_train!(number, type)
       custom_train = TrainFreght.new(number)
-      return create_train unless custom_train.valid?
-
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     else
@@ -189,7 +194,7 @@ class Main
     wagon_number = gets.chomp.to_i
     find_train = @custom_trains[train_number]
     find_wagon = @custom_wagons[wagon_number]
-    find_train.add_wagon(find_wagon)
+    return puts 'Сбавьте скорость до 0!' unless find_train.add_wagon(find_wagon)
   end
 
   def delete_wagon_from_train
@@ -201,7 +206,7 @@ class Main
     find_train.show_wagons
     wagon_number = gets.chomp.to_i
     find_wagon = @custom_wagons[wagon_number]
-    find_train.delete_wagon(find_wagon)
+    return puts 'Нет вагонов или скорость не равна 0!' unless find_train.delete_wagon(find_wagon)
   end
 
   def move_train
@@ -216,9 +221,15 @@ class Main
       2 - back \n
     "
     direction = gets.chomp.to_i
-    find_train.move_straight if direction == 1
-    find_train.move_back if direction == 2
-    find_train.current_station
+    case direction
+    when 1
+      return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_straight
+      find_train.current_station
+      Станций больше нет
+    when 2
+      return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_back
+      find_train.current_station
+    end
   end
 
   def trains_on_station
@@ -318,6 +329,16 @@ class Main
     train_number = gets.chomp.to_i
     find_train = @custom_trains[train_number]
     find_train.show_wagons
+  end
+
+  private
+
+  def validate_train!(number, type)
+    raise unless Train.valid?(number, type)
+    true
+  rescue
+    puts 'Неверный номер или тип поезда!'
+    false
   end
 end
 

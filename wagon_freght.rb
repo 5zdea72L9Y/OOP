@@ -14,21 +14,16 @@ class WagonFreght
     @type
   end
 
-  def show_train_wagon
-    puts "Вагон #{@number} принадлежит поезду #{@train.number}" if @train
-    puts "Вагон #{@number} не принадлежит поезду" unless @train
-  end
-
   def valid?
     validate!
     true
-  rescue StandardError
+  rescue
     false
   end
 
   private
 
   def validate!
-    false if @number <= 0 || @number > 100_000
+    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100_000
   end
 end

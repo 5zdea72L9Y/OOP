@@ -7,7 +7,7 @@ class TrainFreght < Train
   end
 
   def add_wagon(wagon)
-    return puts 'Нельзя на грузовой поезд прицепить пассажирский вагон' if wagon.type == 'Passenger'
+    return false if wagon.type == 'Passenger'
 
     super(wagon)
   end
