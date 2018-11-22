@@ -126,8 +126,6 @@ class Train
     raise 'Невалидный номер поезда!' unless @number =~ regexp
   end
 
-  protected
-
   def speed_valid?
     raise unless @speed.zero?
 
