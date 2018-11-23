@@ -33,6 +33,12 @@ class Main
       14 - Показать все станции \n
       15 - Найти поезд по номеру \n
       16 - Показать количество экземпляров класса \n
+      17 - Забронировать место \n
+      18 - Показать кол-во забронированных или свободных мест \n
+      19 - Занать обьем \n
+      20 - Показать оставшийся или занятый обьем \n
+      21 - Показать поезда на станции(блок) \n
+      22 - Показать вагоны поезда(блок) \n
       0 - exit
       "
       action = gets.chomp.to_i
@@ -71,15 +77,44 @@ class Main
       when 15
         show_train_by_number
       when 16
-        show_intialize_count
+        show_initialize_count
+      when 17
+        get_place
+      when 18
+        show_places
+      when 19
+        fill_volume
+      when 20
+        show_volume
+      when 21
+        show_train_block
+      when 22
+        show_wagons_block
       end
     end
   end
 
   private
 
-  def show_intialize_count
+  def show_initialize_count
     puts "Роуты: #{Route.instances}, поезда: #{TrainPassenger.instances + TrainFreght.instances}, станции: #{Station.instances}"
+  end
+
+  def show_wagons_block
+    puts 'Введите номер поезда: '
+    show_trains
+    train_number = gets.chomp.to_i
+    puts 'Введите номер вагона: '
+    find_train = @custom_trains[train_number]
+    find_train.show_wagons_block { |wagon| puts "Wagon from block: #{wagon}" }
+  end
+
+  def show_train_block
+    puts 'Введите номер станции: '
+    show_stations
+    station_number = gets.chomp.to_i
+    find_station = @custom_stations[station_number]
+    find_station.show_trains_block { |train| puts "Train from block: #{train}" }
   end
 
   def show_or_set_company
@@ -134,23 +169,18 @@ class Main
     2 - Freght
     "
     type_answer = gets.chomp.to_i
-    type = ''
-    case type_answer
-    when 1
-      type = 'Passenger'
-    when 2
-      type = 'Freght'
-    end
     puts 'Введите номер поезда: '
     number = gets.chomp
     case type_answer
     when 1
+      type = 'Passenger'
       return unless validate_train!(number, type)
 
       custom_train = TrainPassenger.new(number)
       @custom_trains << custom_train
       puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
     when 2
+      type = 'Freght'
       return unless validate_train!(number, type)
 
       custom_train = TrainFreght.new(number)
@@ -196,7 +226,7 @@ class Main
     wagon_number = gets.chomp.to_i
     find_train = @custom_trains[train_number]
     find_wagon = @custom_wagons[wagon_number]
-    return puts 'Сбавьте скорость до 0!' unless find_train.add_wagon(find_wagon)
+    return puts 'Сбавьте скорость до 0!' if find_train.add_wagon(find_wagon)
   end
 
   def delete_wagon_from_train
@@ -335,7 +365,81 @@ class Main
     find_train.show_wagons
   end
 
-  private
+  def show_wagons
+    @custom_wagons.each_with_index do |wagon, i|
+      puts "#{i} - #{wagon.number}, #{wagon.type}"
+    end
+  end
+
+  def get_place
+    puts 'Введите номер вагона: '
+    show_wagons
+    wagon_number = gets.chomp.to_i
+    find_wagon = @custom_wagons[wagon_number]
+    return unless find_wagon.type == 'Passenger'
+
+    puts 'Введите номер места: '
+    find_wagon.show_freedom_places
+
+    place_number = gets.chomp.to_i
+    return unless find_wagon.get_place(place_number)
+
+    puts 'Место успешно забронированно'
+  end
+
+  def show_places
+    puts "Введите номер: \n
+    1 - Показать Свободные места \n
+    2 - Поаказать Забронированные места
+    "
+    action = gets.chomp.to_i
+
+    puts 'Введите номер вагона: '
+
+    show_wagons
+
+    wagon_number = gets.chomp.to_i
+
+    find_wagon = @custom_wagons[wagon_number]
+
+    case action
+    when 1
+      find_wagon.show_freedom_places
+    when 2
+      find_wagon.show_busy_places
+    end
+  end
+
+  def show_volume
+    puts 'Введите номер вагона: '
+    show_wagons
+    wagon_number = gets.chomp.to_i
+    find_wagon = @custom_wagons[wagon_number]
+    puts "Введите номер: \n
+    1 - Показать свободный обьем \n
+    2 - Показать занятый обьем
+    "
+    action = gets.chomp.to_i
+
+    case action
+    when 1
+      puts "свободный обьем #{find_wagon.available_volume}"
+    when 2
+      puts "Занятый обьем: #{find_wagon.volume}"
+    end
+  end
+
+  def fill_volume
+    puts 'Введите номер вагона: '
+    show_wagons
+    wagon_number = gets.chomp.to_i
+    find_wagon = @custom_wagons[wagon_number]
+    puts 'Введите сколько хотите добавить: '
+    add_count = gets.chomp.to_i
+    return unless find_wagon.fill_volume(add_count)
+
+    puts 'Обьем занят успешно'
+  end
 
   def validate_train!(number, type)
     raise unless Train.valid?(number, type)

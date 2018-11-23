@@ -6,8 +6,6 @@ class Train
   attr_reader :speed, :type, :wagons, :number, :route
   @@all_trains = []
   def initialize(number, type)
-    raise 'create error' unless valid?
-
     @number = number
     @type = type
     @speed = 0
@@ -24,9 +22,10 @@ class Train
     find_train
   end
 
-  def self.validate!(number, _type)
+  def self.validate!(number, type)
     regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
-    raise 'Невалидный номер поезда!' unless number =~ regexp
+    raise unless number =~ regexp
+    raise unless type == 'Passenger' || type == 'Freght'
   end
 
   def self.valid?(number, type)
@@ -78,6 +77,12 @@ class Train
     end
   end
 
+  def show_wagons_block
+    @wagons.each do |wagon|
+      yield(wagon)
+    end
+  end
+
   def move_straight
     return false unless next_station
     return false if @speed.zero?
@@ -112,19 +117,7 @@ class Train
     @route.stations[@current_station]
   end
 
-  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
-  end
-
   protected
-
-  def validate!
-    regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
-    raise 'Невалидный номер поезда!' unless @number =~ regexp
-  end
 
   def speed_valid?
     raise unless @speed.zero?
