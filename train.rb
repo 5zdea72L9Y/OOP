@@ -77,7 +77,7 @@ class Train
     end
   end
 
-  def show_wagons_block
+  def each_wagons_block
     @wagons.each do |wagon|
       yield(wagon)
     end

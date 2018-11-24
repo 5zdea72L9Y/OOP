@@ -3,17 +3,17 @@ require './company'
 class WagonPassenger
   include Company
   attr_reader :number, :type, :train, :places, :freedom_places, :busy_places
-  def initialize(number, train = nil)
+  def initialize(number, places, train = nil)
     @number = number
     @type = 'Passenger'
     @places = {}
-    32.times do
+    places.times do # заполнение хеша @places, true = место свободно
       count = 0
 
       loop do
         @places[count] = true
         count += 1
-        break if count == 32
+        break if count == places
       end
     end
     @freedom_places = @places.select { |_key, val| val == true }

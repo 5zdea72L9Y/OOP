@@ -2,13 +2,13 @@ require './company'
 
 class WagonFreght
   include Company
-  attr_reader :number, :type, :train, :volume, :available_volume
-  VOLUME_MAX = 5000
-  def initialize(number, train = nil)
+  attr_reader :number, :type, :train, :load_capacity, :available_load_capacity
+  def initialize(number, load_capacity, train = nil)
     @number = number
     @type = 'Freght'
-    @volume = 0
-    @available_volume = VOLUME_MAX
+    @load_capacity = 0
+    @available_load_capacity = load_capacity
+    @max_load_capacity = load_capacity
     @train = train
     valid?
   end
@@ -18,12 +18,12 @@ class WagonFreght
   end
 
   def fill_volume(volume)
-    return false if @volume + volume > VOLUME_MAX
+    return false if @load_capacity + volume > @max_load_capacity
 
-    @volume += volume
-    return false if @available_volume - @volume < 0
+    @load_capacity += volume
+    return false if @available_load_capacity - @load_capacity < 0
 
-    @available_volume -= @volume
+    @available_load_capacity -= @load_capacity
     true
   end
 

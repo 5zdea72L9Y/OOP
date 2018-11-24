@@ -37,7 +37,7 @@ class Station
     end
   end
 
-  def show_trains_block
+  def each_trains_block
     @trains.each do |train|
       yield(train)
     end
