@@ -18,13 +18,12 @@ class WagonFreght
   end
 
   def fill_volume(volume)
-    return false if @load_capacity + volume > @max_load_capacity
-
+    validate_volume!(volume)
     @load_capacity += volume
-    return false if @available_load_capacity - @load_capacity < 0
-
     @available_load_capacity -= @load_capacity
     true
+  rescue StandardError
+    false
   end
 
   def valid?
@@ -35,6 +34,11 @@ class WagonFreght
   end
 
   private
+
+  def validate_volume!(volume)
+    raise if @load_capacity + volume > @max_load_capacity
+    raise if @available_load_capacity - @load_capacity < 0o0
+  end
 
   def validate!
     raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100_000
