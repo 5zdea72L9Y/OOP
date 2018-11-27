@@ -8,7 +8,6 @@ class WagonFreght
     @type = 'Freght'
     @load_capacity = 0
     @available_load_capacity = load_capacity
-    @max_load_capacity = load_capacity
     @train = train
     valid?
   end
@@ -36,11 +35,10 @@ class WagonFreght
   private
 
   def validate_volume!(volume)
-    raise if @load_capacity + volume > @max_load_capacity
-    raise if @available_load_capacity - @load_capacity < 0o0
+    raise if volume > @available_load_capacity
   end
 
   def validate!
-    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100_000
+    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 1000000
   end
 end
