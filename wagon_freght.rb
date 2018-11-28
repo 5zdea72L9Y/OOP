@@ -39,6 +39,6 @@ class WagonFreght
   end
 
   def validate!
-    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 1_000_000
+    raise if @number <= 0 || @number > 1_000_000
   end
 end

@@ -79,7 +79,7 @@ class Main
       when 16
         show_initialize_count
       when 17
-        get_place
+        take_place
       when 18
         show_places
       when 19
@@ -97,7 +97,10 @@ class Main
   private
 
   def show_initialize_count
-    puts "Роуты: #{Route.instances}, поезда: #{TrainPassenger.instances + TrainFreght.instances}, станции: #{Station.instances}"
+    puts "Роуты: #{Route.instances},
+    поезда: #{TrainPassenger.instances + TrainFreght.instances},
+    станции: #{Station.instances}
+    "
   end
 
   def each_wagons_block
@@ -137,7 +140,7 @@ class Main
       company_name = gets.chomp
       Train.company = company_name
     when 3
-      puts WagonFreght.company # или WagonPassenger.company
+      puts WagonFreght.company # or WagonPassenger.company
     when 4
       puts Train.company
     end
@@ -178,14 +181,20 @@ class Main
 
       custom_train = TrainPassenger.new(number)
       @custom_trains << custom_train
-      puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
+      puts "Созданный поезд: #{custom_train.number},
+      тип поезда: #{custom_train.type},
+      вагоны поезда: #{custom_train.wagons}
+      "
     when 2
       type = 'Freght'
       return unless validate_train!(number, type)
 
       custom_train = TrainFreght.new(number)
       @custom_trains << custom_train
-      puts "Созданный поезд: #{custom_train.number}, тип поезда: #{custom_train.type}, вагоны поезда: #{custom_train.wagons}"
+      puts "Созданный поезд: #{custom_train.number},
+      тип поезда: #{custom_train.type},
+      вагоны поезда: #{custom_train.wagons}
+      "
     else
       puts 'Неправильный тип поезда'
     end
@@ -201,7 +210,10 @@ class Main
     custom_station2 = @custom_stations[custom_route_last]
     create_route = Route.new(custom_station1, custom_station2)
     @custom_routes << create_route
-    puts "Маршрут успешно создан: начальная станция #{custom_station1.name}, конечная станция #{custom_station2.name}"
+    puts "Маршрут успешно создан:
+    начальная станция #{custom_station1.name},
+    конечная станция #{custom_station2.name}
+    "
   end
 
   def add_route_to_train
@@ -258,7 +270,6 @@ class Main
       return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_straight
 
       find_train.current_station
-      Станций больше нет
     when 2
       return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_back
 
@@ -295,6 +306,7 @@ class Main
       2 - Убавить \n
     "
     speed_action = gets.chomp.to_i
+
     case speed_action
     when 1
       puts 'Сколько хотите добавить? '
@@ -317,23 +329,24 @@ class Main
       2 - Грузовой
     "
     wagon_type = gets.chomp.to_i
+
     case wagon_type
     when 1
       puts 'Введите кол-во мест: '
       places = gets.chomp.to_i
-      passenger_wagon = WagonPassenger.new(wagon_number, places)
-      return create_wagon unless passenger_wagon.valid?
+      wagon = WagonPassenger.new(wagon_number, places)
+      return create_wagon unless wagon.valid?
 
-      @custom_wagons << passenger_wagon
-      puts "Созданный вагон: #{passenger_wagon.number}, #{passenger_wagon.type}, #{places}"
+      @custom_wagons << wagon
+      puts "Созданный вагон: #{wagon.number}, #{wagon.type}, #{places}"
     when 2
       puts 'Введите грузоподьемность в тоннах: '
       load_capacity = gets.chomp.to_i
-      freght_wagon = WagonFreght.new(wagon_number, load_capacity)
-      return create_wagon unless freght_wagon.valid?
+      wagon = WagonFreght.new(wagon_number, load_capacity)
+      return create_wagon unless wagon.valid?
 
-      @custom_wagons << freght_wagon
-      puts "Созданный вагон: #{freght_wagon.number}, #{freght_wagon.type}, #{load_capacity}"
+      @custom_wagons << wagon
+      puts "Созданный вагон: #{wagon.number}, #{wagon.type}, #{load_capacity}"
     end
   end
 
@@ -375,7 +388,7 @@ class Main
     end
   end
 
-  def get_place
+  def take_place
     puts 'Введите номер вагона: '
     show_wagons
     wagon_number = gets.chomp.to_i
@@ -386,7 +399,7 @@ class Main
     find_wagon.show_freedom_places
 
     place_number = gets.chomp.to_i
-    return unless find_wagon.get_place(place_number)
+    return unless find_wagon.take_place(place_number)
 
     puts 'Место успешно забронированно'
   end
@@ -399,11 +412,8 @@ class Main
     action = gets.chomp.to_i
 
     puts 'Введите номер вагона: '
-
     show_wagons
-
     wagon_number = gets.chomp.to_i
-
     find_wagon = @custom_wagons[wagon_number]
 
     case action

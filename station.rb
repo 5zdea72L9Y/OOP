@@ -33,7 +33,10 @@ class Station
 
   def show_trains
     @trains.each do |train|
-      puts "Номер поезда: #{train.number}, тип поезда: #{train.type}, вагоны поезда: #{train.wagons}"
+      puts "Номер поезда: #{train.number},
+      тип поезда: #{train.type},
+      вагоны поезда: #{train.wagons}
+      "
     end
   end
 
@@ -54,6 +57,6 @@ class Station
 
   def validate!
     regexp = /^[a-z]{3,50}$/i
-    raise 'Имя не может быть меньше 3 или больше 50 символов' unless @name =~ regexp
+    raise unless @name =~ regexp
   end
 end

@@ -7,15 +7,7 @@ class WagonPassenger
     @number = number
     @type = 'Passenger'
     @places = {}
-    places.times do # заполнение хеша @places, true = место свободно
-      count = 0
-
-      loop do
-        @places[count] = true
-        count += 1
-        break if count == places
-      end
-    end
+    fill_places(places)
     @freedom_places = @places.select { |_key, val| val == true }
     @busy_places = @places.select { |_key, val| val == false }
     @train = train
@@ -57,6 +49,18 @@ class WagonPassenger
   private
 
   def validate!
-    raise 'Номер не может быть меньше 0 или больше 100000' if @number <= 0 || @number > 100_000
+    raise if @number <= 0 || @number > 100_000
+  end
+
+  def fill_places(places)
+    places.times do # @places, true = free place
+      count = 0
+
+      loop do
+        @places[count] = true
+        count += 1
+        break if count == places
+      end
+    end
   end
 end
