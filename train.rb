@@ -22,10 +22,9 @@ class Train
     find_train
   end
 
-  def self.validate!(number, type)
+  def self.validate!(number, _type)
     regexp = /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
     raise unless number =~ regexp
-    raise unless type == 'Passenger' || type == 'Freght'
   end
 
   def self.valid?(number, type)

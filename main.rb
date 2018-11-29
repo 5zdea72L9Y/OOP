@@ -250,7 +250,7 @@ class Main
     find_train.show_wagons
     wagon_number = gets.chomp.to_i
     find_wagon = @custom_wagons[wagon_number]
-    return puts 'Нет вагонов или скорость не равна 0!' unless find_train.delete_wagon(find_wagon)
+    return unless find_train.delete_wagon(find_wagon)
   end
 
   def move_train
@@ -267,11 +267,11 @@ class Main
     direction = gets.chomp.to_i
     case direction
     when 1
-      return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_straight
+      return unless find_train.move_straight
 
       find_train.current_station
     when 2
-      return puts 'Станций больше нет или скорость равна 0!' unless find_train.move_back
+      return unless find_train.move_back
 
       find_train.current_station
     end
