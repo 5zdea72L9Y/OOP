@@ -1,9 +1,21 @@
 class Train
   require './company'
   require './instance_counter'
+  require './acсessors.rb'
+  require './validation'
   include Company
   include InstanceCounter
+  include Acсessors
+  include Validation
+
   attr_reader :speed, :type, :wagons, :number, :route
+  attr_accessor_with_history :color, :model
+  strong_attr_accessor :number, String
+
+  validate :number, :presence
+  validate :number, :type, String
+  validate :number, :format, /^([a-z]|\d){3}[-]?([a-z]|\d){2}$/
+
   @@all_trains = []
   def initialize(number, type)
     @number = number
@@ -12,6 +24,10 @@ class Train
     @wagons = []
     @route = nil
     @current_station = 0
+    @color = 'red'
+    @model = 'my_model'
+    @test_strong = 1
+    validate!
     @@all_trains << self
     register_instance
   end

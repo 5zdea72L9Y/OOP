@@ -1,12 +1,19 @@
 class Station
   require './instance_counter'
+  require './validation'
   include InstanceCounter
+  include Validation
   attr_reader :name
+
+  validate :name, :presence
+  validate :name, :type, String
+  validate :name, :format, /^[a-z]{3,50}$/i
+
   @@all_stations = []
   def initialize(name)
     @name = name.to_s
-    valid?
     @trains = []
+    validate!
     @@all_stations << self
     register_instance
   end
@@ -44,19 +51,5 @@ class Station
     @trains.each do |train|
       yield(train)
     end
-  end
-
-  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
-  end
-
-  private
-
-  def validate!
-    regexp = /^[a-z]{3,50}$/i
-    raise unless @name =~ regexp
   end
 end

@@ -39,6 +39,7 @@ class Main
       20 - Показать сколько осталось или занято \n
       21 - Показать поезда на станции(блок) \n
       22 - Показать вагоны поезда(блок) \n
+      23 - Протестировать attr_accessor_with_history \n
       0 - exit
       "
       action = gets.chomp.to_i
@@ -90,11 +91,23 @@ class Main
         each_train_block
       when 22
         each_wagons_block
+      when 23
+        test_accessors
       end
     end
   end
 
   private
+
+  def test_accessors
+    # test history
+    train = TrainPassenger.new('qwe-12')
+    puts "color: #{train.color}, model: #{train.model}"
+    train.color = 'green'
+    puts "color: #{train.color}, model: #{train.model}"
+    puts "История: #{train.color_history}"
+
+  end
 
   def show_initialize_count
     puts "Роуты: #{Route.instances},
@@ -158,12 +171,13 @@ class Main
 
   def create_station
     puts 'Введите имя станции: '
-    custom_station_name = gets.chomp
+    custom_station_name = gets.chomp.to_s
     custom_station = Station.new(custom_station_name)
-    return create_station unless custom_station.valid?
-
     puts "Станция создана: #{custom_station.name}"
     @custom_stations << custom_station
+  rescue StandardError => e
+    puts e
+    retry
   end
 
   def create_train
@@ -176,27 +190,29 @@ class Main
     number = gets.chomp
     case type_answer
     when 1
-      type = 'Passenger'
-      return unless validate_train!(number, type)
-
-      custom_train = TrainPassenger.new(number)
-      @custom_trains << custom_train
-      puts "Созданный поезд: #{custom_train.number},
-      тип поезда: #{custom_train.type},
-      вагоны поезда: #{custom_train.wagons}
-      "
+      begin
+        custom_train = TrainPassenger.new(number)
+        @custom_trains << custom_train
+        puts "Созданный поезд: #{custom_train.number},
+        тип поезда: #{custom_train.type},
+        вагоны поезда: #{custom_train.wagons}
+        "
+      rescue StandardError => e
+        puts e
+        retry
+      end
     when 2
-      type = 'Freght'
-      return unless validate_train!(number, type)
-
-      custom_train = TrainFreght.new(number)
-      @custom_trains << custom_train
-      puts "Созданный поезд: #{custom_train.number},
-      тип поезда: #{custom_train.type},
-      вагоны поезда: #{custom_train.wagons}
-      "
-    else
-      puts 'Неправильный тип поезда'
+      begin
+        custom_train = TrainFreght.new(number)
+        @custom_trains << custom_train
+        puts "Созданный поезд: #{custom_train.number},
+        тип поезда: #{custom_train.type},
+        вагоны поезда: #{custom_train.wagons}
+        "
+      rescue StandardError => e
+        puts e
+        retry
+      end
     end
   end
 
@@ -335,7 +351,7 @@ class Main
       puts 'Введите кол-во мест: '
       places = gets.chomp.to_i
       wagon = WagonPassenger.new(wagon_number, places)
-      return create_wagon unless wagon.valid?
+      return create_wagon unless wagon.validate!
 
       @custom_wagons << wagon
       puts "Созданный вагон: #{wagon.number}, #{wagon.type}, #{places}"
@@ -343,7 +359,7 @@ class Main
       puts 'Введите грузоподьемность в тоннах: '
       load_capacity = gets.chomp.to_i
       wagon = WagonFreght.new(wagon_number, load_capacity)
-      return create_wagon unless wagon.valid?
+      return create_wagon unless wagon.validate!
 
       @custom_wagons << wagon
       puts "Созданный вагон: #{wagon.number}, #{wagon.type}, #{load_capacity}"
@@ -457,7 +473,7 @@ class Main
 
   def validate_train!(number, type)
     raise unless Train.valid?(number, type)
-
+    raise unless %i[Freght Passenger].include?(type)
     true
   rescue StandardError
     puts 'Неверный номер или тип поезда!'
@@ -468,3 +484,45 @@ end
 main = Main.new
 
 main.start_program
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
