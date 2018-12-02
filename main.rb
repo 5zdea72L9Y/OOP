@@ -106,7 +106,6 @@ class Main
     train.color = 'green'
     puts "color: #{train.color}, model: #{train.model}"
     puts "История: #{train.color_history}"
-
   end
 
   def show_initialize_count
@@ -474,6 +473,7 @@ class Main
   def validate_train!(number, type)
     raise unless Train.valid?(number, type)
     raise unless %i[Freght Passenger].include?(type)
+
     true
   rescue StandardError
     puts 'Неверный номер или тип поезда!'
@@ -484,45 +484,3 @@ end
 main = Main.new
 
 main.start_program
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

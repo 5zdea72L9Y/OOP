@@ -1,5 +1,4 @@
 module Acсessors
-
   def self.included(base)
     base.extend ClassMethods
   end
