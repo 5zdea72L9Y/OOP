@@ -10,7 +10,7 @@ module Validation
     end
 
     def validate(name, type, param = nil)
-      raise unless %i[presence format type].include?(type)
+      raise TypeError unless %i[presence format type].include?(type)
 
       data << { name: name, type: type, param: param }
     end
@@ -33,15 +33,15 @@ module Validation
     end
 
     def validate_presence(name, _param)
-      raise if name.nil? || name.to_s.empty?
+      raise 'blank или nil' if name.nil? || name.to_s.empty?
     end
 
     def validate_format(name, format)
-      raise unless name =~ format
+      raise 'неправильный формат' unless name =~ format
     end
 
     def validate_type(name, type)
-      raise unless name.class == type
+      raise TypeError unless name.class == type
     end
   end
 end

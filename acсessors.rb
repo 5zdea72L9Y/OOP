@@ -31,8 +31,6 @@ module Acсessors
 
         instance_variable_set(var_name, value)
       end
+    end
   end
-
-  end
-
 end
